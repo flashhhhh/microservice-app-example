@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-api
+  labels:
+    app: users-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-api
+  template:
+    metadata:
+      name: users-api
+      labels:
+        app: users-api
+    spec:
+      containers:
+        - name: users-api
+          image: users-api
+          imagePullPolicy: Never
+          env:
+            - name: SERVER_PORT
+              value: "8083"
+            - name: JWT_SECRET
+              value: myfancysecret
+            - name: SPRING_ZIPKIN_BASE_URL
+              value: http://zipkin:9411
+          ports:
+            - containerPort: 8081
